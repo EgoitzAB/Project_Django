@@ -1,0 +1,30 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block extrahead %}
+
+{% endblock extrahead %}
+
+{% block title %}
+Website Menu #4
+{% endblock title %}
+
+{% block navbar%}
+{% include 'pages/navbar.html' %}
+
+{% endblock navbar %}
+
+{% block content %}
+TEST TESt
+
+
+
+<div class="hero" style="background-image: url('static/images/hero_1.jpg');"></div>
+{% endblock content %}
+{% block javascript %}
+
+<script src="{% static '/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static '/js/popper.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/js/jquery.sticky.js' %}"></script>
+<script src="{% static '/js/main.js' %}"></script>
+{% endblock javascript %}
