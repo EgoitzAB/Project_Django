@@ -10,6 +10,6 @@ __pycache__/
 
 media/
 staticfiles/
-
+static/
 venv/
 env/
