@@ -40,7 +40,7 @@ class Producto(models.Model):
 
 class Precio_stock(models.Model):
      
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name="precio")
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name="precios")
     precio = models.SmallIntegerField(blank=True, null=True)
     peso = models.SmallIntegerField(blank=True, null=True)
     stock = models.PositiveIntegerField(blank=True, null=True)

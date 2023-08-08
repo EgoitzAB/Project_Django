@@ -1,18 +1,19 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from tienda.models import Producto, Precio_stock
 from django.http.response import JsonResponse
 from django.urls import reverse
 from django.conf import settings
+from compra.carrito import Carrito
 import stripe
 
 # Create your views here.
 def create_checkout_session(request, *args, **kwargs):
-    product_id = request.POST.get("product_id")  # Get the selected product_id from the POST data
+    product_id = request.POST.get("product_id")
     precio = get_object_or_404(Precio_stock, id=product_id)
     product = precio.producto
 
-    domain = "https://vudera.com"
+    domain = "https://egoitzabilleira.es"
     if settings.DEBUG:
         domain = "http://127.0.0.1:8000"
 
@@ -53,3 +54,35 @@ def create_checkout_session(request, *args, **kwargs):
     return JsonResponse({
         "id": session.id
     })
+
+def carrito(request):
+    productos = Precio_stock.objects.all()
+
+    return render(request, "compra/carrito.html", {"productos": productos})
+
+def agregar_producto(request):
+    if request.method == 'POST':
+        producto_id = request.POST.get('producto_id')
+        carrito = Carrito(request)
+        producto = Precio_stock.objects.get(id=producto_id)
+        carrito.agregar(producto)
+        return redirect("compra:carrito")
+    return HttpResponseBadRequest("Método no permitido")
+
+def eliminar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Precio_stock.objects.get(id=producto_id)
+    carrito.eliminar(producto)
+    return redirect("compra:carrito")
+
+def restar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Precio_stock.objects.get(id=producto_id)
+    carrito.restar(producto)
+    return redirect("compra:carrito")
+
+def limpiar_carrito(request):
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return redirect("compra:carrito")
+

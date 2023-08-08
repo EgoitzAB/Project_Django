@@ -14,7 +14,6 @@ Nuestros productos
 {% endblock navbar %}
 
 {% block content %}
-<p>{{ STRIPE_PUBLIC_KEY }}</p>
 <div class="container mt-5">
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for product in object_list %}
@@ -22,27 +21,23 @@ Nuestros productos
       <div class="card h-100">
         {% if product.fotos %}
         <a href="{{ product.slug }}">
-        <img src="{{ product.fotos.url }}" class="card-img-top img-listado" alt="{{ product.name }}">
-      </a>
+          <img src="{{ product.fotos.url }}" class="card-img-top img-listado" alt="{{ product.name }}">
+        </a>
         {% else %}
           <img src="{% static 'images/teclado-1725199204.jpeg' %}" class="card-img-top img-listado" alt="{{ product.name }}">
         {% endif %}
         <div class="card-body">
           <h5 class="card-title">{{ product.name }}</h5>
-          <form action="{% url 'compra:create-checkout-session' %}" method="POST">
+          {% for precio_stock in product.precios.all %}
+          
+          <p class="card-text">Precio: {{ precio_stock.precio }}</p>
+          <p>Peso: {{ precio_stock.peso }}</p>
+          <p>hola</p>
+          <form action="{% url 'compra:agregar' %}" method="post">
             {% csrf_token %}
-            {% for precio_stock in product.precio.all %}
-              <input type="radio" id="product" name="product_id" value="{{ precio_stock.id }}" {% if forloop.first %}checked{% endif %}>
-              <label for="product">{{ precio_stock.precio }}</label><br>
-            {% endfor %}
-            <button type="submit" id="checkout-button">Checkout</button>
+            <button type="submit">Añadir al carrito</button>
           </form>
-          <p><a href="{{ product.slug }}"></a></p>
-          <button type="button" class="btn btn-primary">Añadir al carrito</button>
-          <button type="button" class="btn btn-success" data-product-id="{{ precio_stock.id }}">
-            <p>{{ precio_stock.id }}</p>
-            Comprar
-          </button>
+          {% endfor %}
         </div>
       </div>
     </div>

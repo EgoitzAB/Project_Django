@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from tienda.models import Producto
 from tienda.forms import ProductoModelForm
 from django.conf import settings
+from compra.context_processor import carrito_total
 
 # Create your views here.
 
@@ -63,7 +64,7 @@ class CategoriasView(ListView):
 
 class ProductoDetailView(DetailView):
     model = Producto
-    template_name = 'pages/index.html'
+    template_name = 'tienda/detalle.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
