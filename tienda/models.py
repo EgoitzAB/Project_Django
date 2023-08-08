@@ -11,6 +11,7 @@ def productos_directory_path(instance, filename):
 
     if os.path.exists(full_path):
     	os.remove(full_path)
+        
     return banner_pic_name
 
 class Producto(models.Model):
@@ -36,10 +37,6 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.name
-
-   # def get_absolute_url(self):
-    #    """Devuelve la url para acceder a una instancia particular del modelo."""
-     #   return reverse('recetas-detail-view', args=[str(self.id)])
 
 class Precio_stock(models.Model):
      
