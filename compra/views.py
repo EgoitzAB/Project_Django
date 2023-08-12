@@ -56,9 +56,9 @@ def create_checkout_session(request, *args, **kwargs):
     })
 
 def carrito(request):
-    productos = Precio_stock.objects.all()
+    carrito = Carrito(request)
+    return render(request, "compra/carrito.html", {"carrito": carrito})
 
-    return render(request, "compra/carrito.html", {"productos": productos})
 
 def agregar_producto(request):
     if request.method == 'POST':

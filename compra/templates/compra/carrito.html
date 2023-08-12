@@ -1,19 +1,17 @@
 {% extends 'pages/base.html' %}
-
 {% block navbar %}
 {% include 'pages/navbar.html' %}
 {% endblock navbar %}
-
 {% block content %}
 <h2>Productos en el carrito:</h2>
-{% if carrito.carrito %}
+{% if carrito %}
   <ul>
-    {% for key, value in carrito.carrito.items %}
+    {% for producto_id, producto_data in carrito.carrito.items %}
       <li>
-        <strong>Nombre del Producto:</strong> {{ value.name }}<br>
-        <strong>Precio:</strong> ${{ value.precio }}<br>
-        <strong>Cantidad:</strong> {{ value.quantity }}<br>
-        <form action="{% url 'compra:eliminar' producto_id=key %}" method="post">
+        <strong>Nombre del Producto:</strong> {{ producto_data.name }}<br>
+        <strong>Precio:</strong> ${{ producto_data.precio }}<br>
+        <strong>Cantidad:</strong> {{ producto_data.quantity }}<br>
+        <form action="{% url 'compra:eliminar' producto_id=producto_id %}" method="post">
           {% csrf_token %}
           <button type="submit">Eliminar del carrito</button>
         </form>
@@ -26,4 +24,3 @@
   <p>No se ha añadido ningún producto al carrito.</p>
 {% endif %}
 {% endblock content %}
-

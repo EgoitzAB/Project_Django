@@ -58,24 +58,26 @@
                         <div class="fs-5 mb-5">
                         <p class="lead">{{ object.description }}</p>
                         <div class="d-flex">
-                            
+                          <form method="post" action="{% url 'compra:agregar' %}">
+                            {% csrf_token %}
                             
                             {% for datos in object.precios.all %}
                                 <div class="product">
-                                    <input type="radio" class="btn-check visually-hidden" name="add-to-cart" id="{{datos.id}}" autocomplete="off" {% if forloop.first %}checked{% endif %}>
+                                    <input type="radio" class="btn-check visually-hidden" name="producto_id" id="{{datos.id}}" value="{{datos.id}}" autocomplete="off" {% if forloop.first %}checked{% endif %}>
                                     <label class="btn btn-label" for="{{datos.id}}">{{ datos.peso }} g</label>
                                     <div class="price">${{ datos.precio }} el gramo de bueno</div>
                                 </div>
                             {% endfor %}
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                            <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                                 <i class="bi-cart-fill me-1"></i>
                                 Add to cart
                             </button>
+                          </form>  
                             <form method="post" action="{% url 'compra:agregar' %}">
                                 {% csrf_token %}
                                 <select name="producto_id">
                                   {% for datos in object.precios.all %}
-                                    <option value="{{ datos.id }}">{{ datos.peso }} g - ${{ datos.precio }} el gramo de bueno</option>
+                                    <option name="producto_id" value="{{ datos.id }}">{{ datos.peso }} g - ${{ datos.precio }} el gramo de bueno</option>
                                   {% endfor %}
                                 </select>
                                 <button type="submit" class="btn btn-outline-dark flex-shrink-0">

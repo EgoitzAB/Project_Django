@@ -32,7 +32,6 @@ Nuestros productos
           
           <p class="card-text">Precio: {{ precio_stock.precio }}</p>
           <p>Peso: {{ precio_stock.peso }}</p>
-          <p>hola</p>
           <form action="{% url 'compra:agregar' %}" method="post">
             {% csrf_token %}
             <button type="submit">Añadir al carrito</button>

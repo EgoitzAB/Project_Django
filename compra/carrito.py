@@ -11,18 +11,17 @@ class Carrito:
         self.carrito = carrito
 
     def agregar(self, producto):
-        stock_precio = producto
-        producto = producto.producto
-        id = str(producto.id)
+        stock_precio = producto # PRECIO_STOCK.OBJECT
+        producto = producto.producto # PRECIO_STOCK.OBJECT.PRODUCTO DEVUELVE MÉTODO __STR__ DE MODELO PRODUCTO
+        id = str(stock_precio.id) # DEVUELVE EL ID DEL MODELO PRODUCTO
         if id not in self.carrito.keys():
 
             self.carrito[id] = {
-                'userid': self.request.user.id,
-                'producto_id': producto.id,
+                #'userid': self.request.user.id,
+                'producto_id': stock_precio.id,
                 'name': producto.name,
                 'quantity': 1,
                 'precio': stock_precio.precio,
-                'fotos': producto.fotos.url if producto.fotos else None
             }
         else:
             for key, value in self.carrito.items():
@@ -36,11 +35,14 @@ class Carrito:
         self.session.modified = True
 
     def eliminar(self, producto):
-        producto = producto.producto
-        id = str(producto.id)
-        if id in self.carrito:
-            del self.carrito[id]
-            self.guardar_carrito()
+            producto = producto
+            id = str(producto.id)
+            if id in self.carrito:
+                if self.carrito[id]['quantity'] > 1:
+                    self.carrito[id]['quantity'] -= 1
+                else:
+                    del self.carrito[id]
+                self.guardar_carrito()
 
     def restar(self, producto):
         producto = producto.producto
