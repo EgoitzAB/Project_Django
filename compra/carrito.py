@@ -34,7 +34,7 @@ class Carrito:
         self.session["carrito"] = self.carrito
         self.session.modified = True
 
-    def eliminar(self, producto):
+    def eliminar(self, producto): # Es la lógica de restar
             producto = producto
             id = str(producto.id)
             if id in self.carrito:

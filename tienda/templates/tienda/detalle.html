@@ -1,47 +1,8 @@
 {% extends 'pages/base.html' %}
 {% load static %}
 {% block extrahead %}
-<style>
-/* Estilo para el contenedor del producto */
-.product {
-  display: inline-block;
-  margin: 10px;
-  text-align: center;
-}
+<link rel="stylesheet" href="{% get_static_prefix %}css/style.css">
 
-/* Estilo para ocultar el botón de radio visualmente pero mantenerlo interactivo */
-.visually-hidden {
-  position: absolute;
-  clip: rect(0 0 0 0);
-  pointer-events: none;
-}
-
-/* Estilo para el botón con apariencia de botón */
-.btn {
-  display: inline-block;
-  padding: 5px 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
-
-/* Estilo para la etiqueta del botón */
-.btn-label {
-  display: block;
-}
-
-/* Estilo para el precio */
-.price {
-  display: none;
-  margin-top: 5px; /* Espaciado entre el botón y el precio */
-}
-
-/* Mostrar el precio cuando el botón está seleccionado */
-.visually-hidden:checked + .btn-label + .price {
-  display: block;
-}
-
-  </style>
 {% endblock extrahead %}
 {% block navbar %}
 {% include 'pages/navbar.html' %}
