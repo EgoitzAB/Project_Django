@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
-SECURE_SSL_REDIRECT = True # estas igual no se necesitan
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
+#SECURE_SSL_REDIRECT = True # estas igual no se necesitan
+#SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,15 +20,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-SECURE_HSTS_PRELOAD = True
+#SECURE_HSTS_PRELOAD = True
 
-ALLOWED_HOSTS = ['egoitzabilleira.es']
+ALLOWED_HOSTS = ['egoitzabilleira.es', 'www.egoitzabilleira.es', '94.143.137.10']
 CSRF_TRUSTED_ORIGINS = ['https://egoitzabilleira.es']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-SITE_ID = 1
+#SITE_ID = 1
 # Application definition
 
 INSTALLED_APPS = [
@@ -88,7 +88,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": os.getenv("NAME"),
-        "USER" : "testuser",
+        "USER" : "tiendauser",
         "PASSWORD": os.getenv("PASSWORD"),
         "HOST": os.getenv("HOST"),
         "PORT": os.getenv("PORT"),
@@ -126,7 +126,7 @@ AUTHENTICATION_BACKENDS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'es-es'
 
 TIME_ZONE = 'UTC'
 
