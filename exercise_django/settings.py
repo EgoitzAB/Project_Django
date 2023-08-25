@@ -47,11 +47,15 @@ INSTALLED_APPS = [
 
     'tienda.apps.TiendaConfig',
     'compra.apps.CompraConfig',
+    'pago.apps.PagoConfig',
 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
 ]
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # Otra opción es "django.contrib.sessions.backends.db" para almacenamiento en la base de datos
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Las sesiones expiran al cerrar el navegador
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

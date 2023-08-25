@@ -29,46 +29,27 @@ class PrincipalView(View):
         }
         return render(request, 'tienda/index.html', context)
     
-    def post(self, request, *args, **kwargs):
-        productos = Producto.objects.filter(active=True)
-
-        form=ProductoModelForm()
-
-        if request.method == "POST":
-            form=ProductoModelForm(request.POST, request.FILES)
-
-            if form.is_valid():
-                form.user=request.user
-                form.save()
-                return redirect('home')
-            
-        digital_products_data = None
-
-        if productos:
-            paginator = Paginator(productos, 9)
-            page_number = request.GET.get('page')
-            digital_products_data = paginator.get_page(page_number)
-        
-        context={
-            'products':digital_products_data
-        }
-        return render(request, 'tienda/index.html', context)
     
 class CategoriasView(ListView):
     model = Producto
     template_name = 'tienda/listado.html'
+    context_object_name = 'productos'  # Nombre con el que se accederá a los productos en el template
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['STRIPE_PUBLIC_KEY'] = settings.STRIPE_PUBLIC_KEY
+
+        # Obtener la categoría seleccionada de la URL
+        categoria_seleccionada = self.request.GET.get('categoria')
+
+        # Filtrar productos por categoría si se seleccionó una
+        if categoria_seleccionada:
+            context['categoria_seleccionada'] = categoria_seleccionada
+            context['productos'] = Producto.objects.filter(categoria=categoria_seleccionada)
+
         return context
 
 class ProductoDetailView(DetailView):
     model = Producto
     template_name = 'tienda/detalle.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['STRIPE_PUBLIC_KEY'] = settings.STRIPE_PUBLIC_KEY
-        return context
 
 

@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import create_checkout_session, carrito, agregar_producto, eliminar_producto, restar_producto, limpiar_carrito
 from django.conf import settings
-import stripe
 
 app_name = "compra"
 

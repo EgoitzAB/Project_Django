@@ -12,37 +12,74 @@ Nuestros productos
 {% block navbar %}
 {% include 'pages/navbar.html' %}
 {% endblock navbar %}
-
 {% block content %}
+<!-- Nuevo trozo para las opciones -->
 <div class="container mt-5">
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    {% for product in object_list %}
-    <div class="col">
-      <div class="card h-100">
-        {% if product.fotos %}
-        <a href="{{ product.slug }}">
-          <img src="{{ product.fotos.url }}" class="card-img-top img-listado" alt="{{ product.name }}">
-        </a>
-        {% else %}
-          <img src="{% static 'images/teclado-1725199204.jpeg' %}" class="card-img-top img-listado" alt="{{ product.name }}">
-        {% endif %}
-        <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
-          {% for precio_stock in product.precios.all %}
-          
-          <p class="card-text">Precio: {{ precio_stock.precio }}</p>
-          <p>Peso: {{ precio_stock.peso }}</p>
-          <form action="{% url 'compra:agregar' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Añadir al carrito</button>
-          </form>
-          {% endfor %}
+  <div class="row">
+    <div class="col-md-3">
+      <h4>Filtrar por categoría:</h4>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}" class="{% if not request.GET.categoria %}active{% endif %}">Todas</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=ROPA" class="{% if request.GET.categoria == 'ROPA' %}active{% endif %}">Ropa</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=FLORES" class="{% if request.GET.categoria == 'FLORES' %}active{% endif %}">Flores</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=COSMÉTICOS" class="{% if request.GET.categoria == 'COSMÉTICOS' %}active{% endif %}">Cosméticos</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=COMESTIBLES" class="{% if request.GET.categoria == 'COMESTIBLES' %}active{% endif %}">Comestibles</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=VARIOS" class="{% if request.GET.categoria == 'VARIOS' %}active{% endif %}">Varios</a>
+        </li>
+        <!-- Agregar más opciones de categorías aquí -->
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for product in productos %}
+        <div class="col">
+          <div class="card h-100 card-principal">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.name }}</h5>
+            {% if product.fotos %}
+            <a href="{{ product.slug }}">
+              <img src="{{ product.fotos.url }}" class="card-img-top img-listado" alt="{{ product.name }}">
+            </a>
+            {% else %}
+              <img src="{% static 'images/teclado-1725199204.jpeg' %}" class="card-img-top img-listado" alt="{{ product.name }}">
+            {% endif %}
+            <a href="{{ product.slug}}">
+              <button type="submit">Añadir al carrito</button>
+            </a>
+              <div>
+              {% for precio_stock in product.precios.all %}
+                <form action="{% url 'compra:agregar' %}" method="post" class="d-flex flex-wrap">
+                  {% csrf_token %}
+                  <span class="card-text">Precio: {{ precio_stock.precio }}</span>
+                  <span>Peso: {{ precio_stock.peso }}</span>
+                  
+                </form>
+              {% endfor %}
+            </div>
+            <button class="w3-button w3-black">Buy now 
+              <i class="fa fa-shopping-cart"></i>
+            </button>
+            </div>
+          </div>
         </div>
+        {% endfor %}
       </div>
     </div>
-    {% endfor %}
   </div>
 </div>
+<a href="{% url 'pago:crear-pago' %}">Pagar</a>
+<a href="{% url 'pago:crear-cliente' %}">Crear cliente</a>
 {% endblock content %}
 
 {% block javascript %}

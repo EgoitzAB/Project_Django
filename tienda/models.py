@@ -2,17 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 import os
+import uuid
 
 # Create your models here.
 
-def productos_directory_path(instance, filename):
-    banner_pic_name='/productos/{0}/{1}'.format(instance.name, filename)
-    full_path = os.path.join(settings.MEDIA_ROOT, banner_pic_name)
 
-    if os.path.exists(full_path):
-    	os.remove(full_path)
-        
-    return banner_pic_name
+
+def productos_directory_path(instance, filename):
+    unique_filename = str(uuid.uuid4())
+    ext = filename.split('.')[-1]
+    safe_directory_name = instance.name.replace(" ", "_").lower()
+    full_path = os.path.join('productos', safe_directory_name, unique_filename + '.' + ext)
+    return full_path
+
 
 class Producto(models.Model):
     CATEGORIAS = (

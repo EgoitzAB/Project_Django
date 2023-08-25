@@ -60,6 +60,7 @@ def carrito(request):
     return render(request, "compra/carrito.html", {"carrito": carrito})
 
 
+
 def agregar_producto(request):
     if request.method == 'POST':
         producto_id = request.POST.get('producto_id')
@@ -67,7 +68,7 @@ def agregar_producto(request):
         producto = Precio_stock.objects.get(id=producto_id)
         carrito.agregar(producto)
         return redirect("compra:carrito")
-    return HttpResponseBadRequest("Método no permitido")
+
 
 def eliminar_producto(request, producto_id):
     carrito = Carrito(request)

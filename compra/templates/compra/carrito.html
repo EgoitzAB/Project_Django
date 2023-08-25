@@ -15,11 +15,27 @@
           {% csrf_token %}
           <button type="submit">Eliminar del carrito</button>
         </form>
+        <form action="{% url 'compra:restar' producto_id=producto_id %}" method="post">
+          {% csrf_token %}
+          <button type="submit">-</button>
+        </form>
+        <form action="{% url 'compra:agregar' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="producto_id" value="{{ producto_id }}">
+          {% if producto_data.stock > producto_data.quantity %}
+            <button type="submit">+</button>
+          {% else %}
+            <button type="submit" disabled style="color: red;">+</button>
+            <p style="color: red;">Límite de stock alcanzado.</p>
+          {% endif %}
+        </form>
       </li>
-    {% endfor %}
+      {% endfor %}
   </ul>
   <p>Total del Carrito: ${{ carrito_total }}</p>
   <a href="{% url 'compra:carrito' %}">Ir al carrito</a>
+  <a href="{% url 'tienda:listado' %}">Volver a la tienda</a>
+  {#<a href="{% url 'tienda:detalle' %}">Volver al producto</a>#}
 {% else %}
   <p>No se ha añadido ningún producto al carrito.</p>
 {% endif %}

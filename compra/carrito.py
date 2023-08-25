@@ -22,6 +22,7 @@ class Carrito:
                 'name': producto.name,
                 'quantity': 1,
                 'precio': stock_precio.precio,
+                'stock': stock_precio.stock,
             }
         else:
             for key, value in self.carrito.items():
@@ -34,32 +35,35 @@ class Carrito:
         self.session["carrito"] = self.carrito
         self.session.modified = True
 
-    def eliminar(self, producto):
-            producto = producto
-            id = str(producto.id)
-            if id in self.carrito:
-                if self.carrito[id]['quantity'] > 1:
-                    self.carrito[id]['quantity'] -= 1
-                else:
-                    del self.carrito[id]
-                self.guardar_carrito()
-
     def restar(self, producto):
-        producto = producto.producto
+        producto = producto
         id = str(producto.id)
-        for key, value in self.carrito.items():
-            if key == id:
-                value["quantity"] = value["quantity"] - 1
-                if value["quantity"] < 1:
-                    self.eliminar(producto)
-                else:
-                    self.guardar_carrito()
-                break
+        if id in self.carrito:
+            if self.carrito[id]['quantity'] > 1:
+                self.carrito[id]['quantity'] -= 1
             else:
-                print("El producto no exite en el carrito.")
-        self.guardar_carrito()
+                del self.carrito[id]
+            self.guardar_carrito()
+
+    def eliminar(self, producto):
+        producto = producto
+        id = str(producto.id)
+        if id in self.carrito:
+            if self.carrito[id]['quantity'] > 0:
+                del self.carrito[id]
+            self.guardar_carrito()
 
     def limpiar(self):
         self.session["carrito"] = {}
         self.session.modified = True
     
+    def obtener_cantidad_producto(self, producto_id):
+        """
+        Obtiene la cantidad de un producto específico en el carrito.
+        """
+        id = str(producto_id)
+        if id in self.carrito:
+            return self.carrito[id]['quantity']
+        return 0
+
+    # ... (otros métodos y el constructor)
