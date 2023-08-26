@@ -3,6 +3,37 @@
 
 {% block extrahead %}
 <link rel="stylesheet" href="{% get_static_prefix %}css/style.css">
+<style>
+  /* Estilos para el efecto hover */
+  .hover-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .display-hover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .card-principal:hover .display-hover {
+    opacity: 1;
+  }
+
+  /* Estilos para el efecto de crecimiento en hover */
+  .img-hover-grow {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .card-principal:hover .img-hover-grow {
+    transform: scale(1.1);
+  }
+</style>
+
+
 {% endblock extrahead %}
 
 {% block title %}
@@ -21,6 +52,7 @@ Nuestros productos
       <ul class="list-group">
         <li class="list-group-item">
           <a href="{% url 'tienda:listado' %}" class="{% if not request.GET.categoria %}active{% endif %}">Todas</a>
+          
         </li>
         <li class="list-group-item">
           <a href="{% url 'tienda:listado' %}?categoria=ROPA" class="{% if request.GET.categoria == 'ROPA' %}active{% endif %}">Ropa</a>
@@ -41,38 +73,38 @@ Nuestros productos
       </ul>
     </div>
     <div class="col-md-9">
+      <h2 class="text-center md-4">
+        {% if request.GET.categoria %}
+          {{ request.GET.categoria }}
+        {% else %}
+          TODOS LOS PRODUCTOS
+        {% endif %}
+      </h2>
       <div class="row row-cols-1 row-cols-md-3 g-4">
+        
         {% for product in productos %}
         <div class="col">
           <div class="card h-100 card-principal">
-            <div class="card-body">
-              <h5 class="card-title">{{ product.name }}</h5>
-            {% if product.fotos %}
-            <a href="{{ product.slug }}">
-              <img src="{{ product.fotos.url }}" class="card-img-top img-listado" alt="{{ product.name }}">
-            </a>
-            {% else %}
-              <img src="{% static 'images/teclado-1725199204.jpeg' %}" class="card-img-top img-listado" alt="{{ product.name }}">
-            {% endif %}
-            <a href="{{ product.slug}}">
-              <button type="submit">Añadir al carrito</button>
-            </a>
-              <div>
-              {% for precio_stock in product.precios.all %}
-                <form action="{% url 'compra:agregar' %}" method="post" class="d-flex flex-wrap">
-                  {% csrf_token %}
-                  <span class="card-text">Precio: {{ precio_stock.precio }}</span>
-                  <span>Peso: {{ precio_stock.peso }}</span>
-                  
-                </form>
-              {% endfor %}
-            </div>
-            <button class="w3-button w3-black">Buy now 
-              <i class="fa fa-shopping-cart"></i>
-            </button>
+            <div class="hover-container position-relative overflow-hidden">
+              <div class="card-body text-center">
+                <h5 class="card-title">{{ product.name }}</h5>
+                {% if product.fotos %}
+                  <a href="{{ product.slug }}">
+                    <img src="{{ product.fotos.url }}" class="card-img-top img-listado mx-auto img-hover-grow" alt="{{ product.name }}">
+                  </a>
+                {% else %}
+                  <img src="{% static 'images/teclado-1725199204.jpeg' %}" class="card-img-top img-listado mx-auto img-hover-grow" alt="{{ product.name }}">
+                {% endif %}
+                <div class="display-hover">
+                  <a href="{{ product.slug }}">
+                    <button type="submit">Añadir al carrito</button>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        
         {% endfor %}
       </div>
     </div>

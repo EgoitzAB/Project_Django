@@ -381,3 +381,31 @@ a {
   object-position: center;
 }
 
+
+/* Estilos para el efecto hover */
+.hover-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.display-hover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card-principal-listado:hover .display-hover {
+  opacity: 1;
+}
+
+  /* Estilos para el efecto de crecimiento en hover */
+.img-hover-grow {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-principal-listado:hover .img-hover-grow {
+  transform: scale(1.1);
+}
