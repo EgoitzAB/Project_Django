@@ -8,27 +8,26 @@ from tienda.models import Producto
 from tienda.forms import ProductoModelForm
 from django.conf import settings
 from compra.context_processor import carrito_total
-
+from django.http import FileResponse
+from django.views.decorators.http import require_GET
+from django.views.decorators.cache import cache_control
 # Create your views here.
 
+
 class PrincipalView(View):
-    def get(self, request, *args, **kwargs):
-        productos = Producto.objects.filter(active=True)
-        form = ProductoModelForm()
-
-        digital_products_data = None
-
-        if productos:
-            paginator = Paginator(productos, 3)
-            page_number = request.GET.get('page')
-            digital_products_data = paginator.get_page(page_number)
+    def get(self, request):
+        productos = Producto.objects.filter(active=True).order_by('categoria')
         
-        context={
-            'products':digital_products_data,
-            'form':form
+        categorias_con_productos = {}
+        for producto in productos:
+            if producto.categoria not in categorias_con_productos:
+                categorias_con_productos[producto.categoria] = []
+            categorias_con_productos[producto.categoria].append(producto)
+        
+        context = {
+            'categorias_con_productos': categorias_con_productos,
         }
         return render(request, 'tienda/index.html', context)
-    
     
 class CategoriasView(ListView):
     model = Producto
@@ -51,5 +50,11 @@ class CategoriasView(ListView):
 class ProductoDetailView(DetailView):
     model = Producto
     template_name = 'tienda/detalle.html'
+
+@require_GET
+@cache_control(max_age=60 * 60 * 24, immutable=True, public=True)  # one day
+def favicon(request):
+    file = (settings.BASE_DIR / "static" / "favicon.ico").open("rb")
+    return FileResponse(file)
 
 

@@ -1,0 +1,15 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+  <h1>Realizar Compra</h1>
+  <p>Total a pagar: ${{ total }}</p>
+  
+  <form method="post">
+    {% csrf_token %}
+    <label for="telefono">Teléfono:</label>
+    <input type="text" id="telefono" name="telefono">
+    <button type="submit">Realizar Compra</button>
+  </form>
+  
+  <a href="{% url 'tienda:listado' %}">Volver a la tienda</a>
+{% endblock %}

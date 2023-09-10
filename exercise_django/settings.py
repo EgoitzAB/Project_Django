@@ -52,10 +52,13 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'phonenumber_field',
 ]
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # Otra opción es "django.contrib.sessions.backends.db" para almacenamiento en la base de datos
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Las sesiones expiran al cerrar el navegador
+# settings.py
+SESSION_COOKIE_SECURE = False  # Establecer en True en producción
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,6 +128,8 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 
 ]
+# Configuración de Django-allauth
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Internationalization
@@ -157,8 +162,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 
 
 LOGIN_REDIRECT_URL = "/"

@@ -1,5 +1,6 @@
 from django import forms
 from .models import Producto
+from allauth.account.forms import LoginForm
 
 class ProductoModelForm(forms.ModelForm):
     #name = forms.CharField(widget=forms.TextInput(attrs={'class':'max-w-lg block w-full shadow-sm dark:bg-dark-third dark:focus:ring-dark-second focus:ring-indigo-500 dark:focus:border-dark-second dark:text-dark-txt focus:border-indigo-500 sm:max-w-xs sm:text-sm dark:border-dark-second border-gray-300 rounded-md'}), required=True)
@@ -24,3 +25,4 @@ class ProductoModelForm(forms.ModelForm):
             return precio
         else:
             raise forms.ValidationError("Price must be equal or higher than $1 == 100")
+        

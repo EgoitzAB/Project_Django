@@ -23,6 +23,8 @@ class Carrito:
                 'quantity': 1,
                 'precio': stock_precio.precio,
                 'stock': stock_precio.stock,
+                'foto': producto.fotos.url,
+                'link': producto.slug,
             }
         else:
             for key, value in self.carrito.items():
@@ -65,5 +67,15 @@ class Carrito:
         if id in self.carrito:
             return self.carrito[id]['quantity']
         return 0
-
-    # ... (otros métodos y el constructor)
+    
+    def calcular_total(self):
+        total = 0
+        for producto_id, detalles in self.carrito.items():
+            total += detalles['precio'] * detalles['quantity']
+        return total
+    
+    def carrito_total(self):
+        total_carrito = 0
+        for key, value in self.carrito.items():
+            total_carrito = total_carrito + value['precio'] * value['quantity']
+        return total_carrito

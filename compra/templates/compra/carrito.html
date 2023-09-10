@@ -11,7 +11,9 @@
         <div class="d-flex align-items-center">
           <div class="mr-3">
             <!-- Agrega aquí la imagen a la izquierda -->
-            <img src="{{ producto.fotos.ulr }}" alt="Imagen del producto" width="50">
+            <a href="{% url 'tienda:detalle' slug=producto_data.link %}">
+            <img src="{{ producto_data.foto }}" alt="Imagen del producto" width="100" height="75">
+          </a>
           </div>
           <div>
             <strong>Nombre del Producto:</strong> {{ producto_data.name }}<br>
@@ -40,7 +42,10 @@
     {% endfor %}
   </ul>
   <p>Total del Carrito: ${{ carrito_total }}</p>
-  <a href="{% url 'compra:carrito' %}" class="btn btn-primary">Ir al carrito</a>
+
+  <a href="{% url 'pago:create_order' %}" class="btn btn-primary">Pagar</a>
+  <a href="{% url 'pago:prueba_order' %}" class="btn btn-primary">Probar</a>
+
   <a href="{% url 'tienda:listado' %}" class="btn btn-secondary">Volver a la tienda</a>
 {% else %}
   <p>No se ha añadido ningún producto al carrito.</p>

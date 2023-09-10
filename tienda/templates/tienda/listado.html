@@ -3,35 +3,7 @@
 
 {% block extrahead %}
 <link rel="stylesheet" href="{% get_static_prefix %}css/style.css">
-<style>
-  /* Estilos para el efecto hover */
-  .hover-container {
-    position: relative;
-    overflow: hidden;
-  }
 
-  .display-hover {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  .card-principal:hover .display-hover {
-    opacity: 1;
-  }
-
-  /* Estilos para el efecto de crecimiento en hover */
-  .img-hover-grow {
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .card-principal:hover .img-hover-grow {
-    transform: scale(1.1);
-  }
-</style>
 
 
 {% endblock extrahead %}
@@ -84,7 +56,7 @@ Nuestros productos
         
         {% for product in productos %}
         <div class="col">
-          <div class="card h-100 card-principal">
+          <div class="card h-100 card-principal-listado">
             <div class="hover-container position-relative overflow-hidden">
               <div class="card-body text-center">
                 <h5 class="card-title">{{ product.name }}</h5>
@@ -97,7 +69,7 @@ Nuestros productos
                 {% endif %}
                 <div class="display-hover">
                   <a href="{{ product.slug }}">
-                    <button type="submit">Añadir al carrito</button>
+                    <button type="submit">Ver producto</button>
                   </a>
                 </div>
               </div>
@@ -110,8 +82,7 @@ Nuestros productos
     </div>
   </div>
 </div>
-<a href="{% url 'pago:crear-pago' %}">Pagar</a>
-<a href="{% url 'pago:crear-cliente' %}">Crear cliente</a>
+<a href="{% url 'pago:create_order' %}">Pagar</a>
 {% endblock content %}
 
 {% block javascript %}
